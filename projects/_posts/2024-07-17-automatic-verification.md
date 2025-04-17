@@ -9,10 +9,8 @@ sitemap: true
 comments: true
 ---
 
-{:.lead}
-
-- Table of Contents
-{:toc .large-only}
+* Table of Contents
+{:toc}
 
 <!-- Intro paragraph, what is this blog about? -->
 Let me start by asking you this question. Do you know if the neural network you developed work as you intended? You might have used a verification dataset to check if your model has generalized well to unseen data. But is that enough to know if the neural network's functionality is correct and complete? What if the network is going to be deployed in a safety ctitical system like autonomous cars? Will the usual verification dataset be enough to guarantee the functionalities? It is absolutely necessary to make sure that the software present in autonomous vehicles have no functional faults for the safety of the passengers in it.
