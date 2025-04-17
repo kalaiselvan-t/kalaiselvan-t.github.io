@@ -228,11 +228,11 @@ After training from 5000 episodes after rejecting negative rewards over 1000, th
 
 {% include image.html url="../../assets/img/blog/mountain_car_animation.gif" description="Result of Q-learning run for 5000 episodes" width = "400px"%}
 
-{% include image.html url="../../assets/img/blog/mountain_car.png" description="Rewards throughout training" width = "400px"%}
-
 ## Discussion
 
-We can see that the car has learned well to make use of the potential energy to overcome it's lack of engine power and climb the hill in front of it. Although it is able to finish the task, there is still room for improvement. The car probably needn't climb the opposite hill too much to generate the necessary potential energy.
+We can see that the car has learned well to make use of the potential energy to overcome it's lack of engine power and climb the hill in front of it. Although it is able to finish the task, there is still room for improvement. From the overall rewards gained throughout training, it is evident that the car can't climb the hill faster than 200 timesteps. There is probably no need to climb the opposite hill all the way up for that. Next steps would be to optimize this behaviour of the car.
+
+{% include image.html url="../../assets/img/blog/mountain_car.png" description="Rewards throughout training" width = "400px"%}
 
 The algorithm for the cartpole environment is similar except there are two more states to keep track of and the truncation and termination rules for the cartpole environment is different.
 
