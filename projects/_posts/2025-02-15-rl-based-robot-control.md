@@ -236,5 +236,7 @@ We can see that the car has learned well to make use of the potential energy to 
 
 The algorithm for the cartpole environment is similar except there are two more states to keep track of and the truncation and termination rules for the cartpole environment is different.
 
+[Project Code](https://github.com/kalaiselvan-t/learning-based-control/blob/master/Q-learning/ql-2.py)
+
 *[MPC]: Model Predictive Control
 *[RL]: Reinforcement Learning
