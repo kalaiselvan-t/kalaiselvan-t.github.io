@@ -47,7 +47,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta property="twitter:image" content="http://localhost:4000/assets/img/blog/IDP.jpg" />
 <meta property="twitter:title" content="Distributed State Estimation Using Kalman-Consensus Filter" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kalaiselvan Thangaraj"},"dateModified":"2024-08-15T02:46:17+02:00","datePublished":"2024-05-10T00:00:00+02:00","description":"Project for the course Intelligent Distributed Systems at University of Trento","headline":"Distributed State Estimation Using Kalman-Consensus Filter","image":"http://localhost:4000/assets/img/blog/IDP.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/2024-05-10-distributed-state-estimation/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/site/KS_logo.svg"},"name":"Kalaiselvan Thangaraj"},"url":"http://localhost:4000/projects/2024-05-10-distributed-state-estimation/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kalaiselvan Thangaraj"},"dateModified":"2025-04-17T22:37:50+02:00","datePublished":"2024-05-10T00:00:00+02:00","description":"Project for the course Intelligent Distributed Systems at University of Trento","headline":"Distributed State Estimation Using Kalman-Consensus Filter","image":"http://localhost:4000/assets/img/blog/IDP.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/2024-05-10-distributed-state-estimation/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/site/KS_logo.svg"},"name":"Kalaiselvan Thangaraj"},"url":"http://localhost:4000/projects/2024-05-10-distributed-state-estimation/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -112,7 +112,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-09-18T00:56:41+02:00',
+    INDEX_KEY: 'index--2025-11-03T00:34:35+01:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -143,6 +143,17 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
 <!--<![endif]-->
 
 
+<style>
+    h2, h3, h4{
+      margin: 30px 0px 20px 0px;
+    }
+
+    .flex-center {
+      display: flex;
+      justify-content: center;
+    }
+</style>
+<link href="https://cdn.rawgit.com/Killercodes/281792c423a4fe5544d9a8d36a4430f2/raw/36c2eb3e0c44133880485a143717bda9d180f2c1/GistDarkCode.css" rel="stylesheet" type="text/css">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-68GZ24CX1K"></script>
@@ -244,10 +255,10 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
           
             
             
-            <span class="ellipsis" data-tippy-content="Last modified at: 15 Aug 2024">
+            <span class="ellipsis" data-tippy-content="Last modified at: 17 Apr 2025">
               <span class="sr-only">Last modified at:</span>
               <span class="icon-history"></span>
-              <time datetime="2024-08-15T02:46:17+02:00">2024-08-15</time>
+              <time datetime="2025-04-17T22:37:50+02:00">2025-04-17</time>
             </span>
           
         
@@ -295,8 +306,7 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
   </header>
 
   
-    
-<ul class="large-only" id="markdown-toc">
+    <ul id="markdown-toc">
   <li><a href="#background" id="markdown-toc-background">Background</a></li>
   <li><a href="#goal-and-project-setup" id="markdown-toc-goal-and-project-setup">Goal and project setup</a></li>
   <li><a href="#the-algorithm" id="markdown-toc-the-algorithm">The algorithm</a></li>
@@ -310,23 +320,23 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
 
 <p>We can have a centralized system which collects the sensor measurements from all the systems and estimates their state and communicates it back to them. This is the conventional centralized approach. The advantages of this method is the computation is performed by a powerful centralized system and the disadvantage is the communication load the system has to handle when collecting data and sending them back. It grows linearly as the number of robotic systems connected to the network. Otherwise, we could eliminate centralized systems and let the individual systems collect sensor measurements from all other systems and estimate the information for themselves. This method eases up the communication load but in turn increases their computational load.</p>
 
-<p>This is where the distributed systems come in. The idea is to limit the communication of each system to only its neighbours. This reduces the amount of data we need to collect and process and is also easy on the computational load. But is it enough if we only use data from neighbouring systems to estimate the state? Turns out that we get fairly accurate estimations as compared to the centralized estimation techniques. Distributed methods leverage the connected nature of these systems and uses it to have an averaging effect on all the individual estimations.</p>
+<p>This is where the distributed systems come in. The idea is to limit the communication of each system to only its neighbours. This reduces the amount of data we need to collect and process and is also easy on the computational load. But is it enough if we only use data from neighbouring systems to estimate the state? Turns out that we get fairly accurate estimations as compared to the centralized estimation techniques. Distributed methods leverage the connected nature of these systems and uses it to have an averaging effect on all the individual estimations. <br />
+<br /></p>
 
-<figure class="image">
-    <img src="../../assets/img/blog/distributed-comparison.jpg" alt="Comparison of different estimation methods" />
-    <figcaption>Comparison of different estimation methods</figcaption>
-  </figure>
+<p class="figcaption"><img src="/assets/img/blog/distributed-comparison.jpg" alt="An image comparing the advantages of distributed and decentralized methods" />
+Comparison of different estimation methods</p>
 
 <h2 id="goal-and-project-setup">Goal and project setup</h2>
 
 <p>Surveillance in facilities having a huge area is very important for maintaining security. Identifying an object of interest and tracking it around the area is a difficult task for many reasons. One reason is that a single sensor doesn’t have enough range to cover the entire space of the environement. So, we have to rely on multiple sensors to get the job done. For a successful object tracking application, we may use distributed state estimation techniques, where all the sensors in an environment (say camera) can track objects across with more accuracy. Kalman-consensus filter is a modification of the original kalman filter algorithm to accomodate distributed systems. The goal of this project is to track an object through huge space, using the Kalman-consensus filter. We assume that the environment is sufficiently equipped with multiple sensors for our needs.</p>
 
-<p>We simulate an environment equipped with 12 sensors as shown in the figure below. To make things more interesting, we can divide these sensors into two groups, corner sensors and edge sensors. Let us assume that the corner sensors are more accurate than the edge sensors and have long range. We can also have different mesurement models for the sensors i.e. let us assume that a set of edge sensors may only sense the movement of the target in x-axis and the set its motion in y-axis. Let the corner sensors be able to detect full range of motion of the target.</p>
+<p>We simulate an environment equipped with 12 sensors as shown in the figure below. To make things more interesting, we can divide these sensors into two groups, corner sensors and edge sensors. Let us assume that the corner sensors are more accurate than the edge sensors and have long range. We can also have different mesurement models for the sensors i.e. let us assume that a set of edge sensors may only sense the movement of the target in x-axis and the set its motion in y-axis. Let the corner sensors be able to detect full range of motion of the target. <br />
+<br /></p>
 
 <figure class="image">
-    <img src="../../assets/img/blog/distributed-project-setup.jpg" alt="Figure depicting the environment where we are going to track an object" />
+    <img src="../../assets/img/blog/distributed-project-setup.jpg" alt="Figure depicting the environment where we are going to track an object" width="500px height=" />
     <figcaption>Figure depicting the environment where we are going to track an object</figcaption>
-  </figure>
+</figure>
 
 <h2 id="the-algorithm">The algorithm</h2>
 
@@ -346,9 +356,9 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
 </dl>
 <p><br /></p>
 <figure class="image">
-    <img src="../../assets/img/blog/dkf-algorithm.jpg" alt="Figure depicting the environment where we are going to track an object" />
-    <figcaption>Figure depicting the environment where we are going to track an object</figcaption>
-  </figure>
+    <img src="../../assets/img/blog/dkf-algorithm.jpg" alt="Algorithm of Kalman-Consensus Filter" width="500px height=" />
+    <figcaption>Algorithm of Kalman-Consensus Filter</figcaption>
+</figure>
 
 <h2 id="results">Results</h2>
 <p>An elliptical trajectory with random noise is taken as our true trajectory. We would like to investigate the following things</p>
@@ -364,23 +374,23 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79, 177, 186, 0.
 <p><br /></p>
 
 <figure class="image">
-    <img src="../../assets/img/blog/distributed-result-1.png" alt="Image showing the sensor measurements and the estimates calculated using the Kalman-consensus filter for all 12 sensors" />
-    <figcaption>Image showing the sensor measurements and the estimates calculated using the Kalman-consensus filter for all 12 sensors</figcaption>
-  </figure>
+    <img src="../../assets/img/blog/distributed-result-1.png" alt="Sensor measurements and the estimates calculated using the Kalman-consensus filter for all 12 sensors" />
+    <figcaption>Sensor measurements and the estimates calculated using the Kalman-consensus filter for all 12 sensors</figcaption>
+</figure>
 
 <p><br /></p>
 
 <figure class="image">
-    <img src="../../assets/img/blog/distributed-result-2.png" alt="Image showing the sensor measurements and the estimates for different sensor accuracies for corner and edge sensors" />
-    <figcaption>Image showing the sensor measurements and the estimates for different sensor accuracies for corner and edge sensors</figcaption>
-  </figure>
+    <img src="../../assets/img/blog/distributed-result-2.png" alt="Sensor measurements and the estimates for different sensor accuracies" />
+    <figcaption>Sensor measurements and the estimates for different sensor accuracies</figcaption>
+</figure>
 
 <p><br /></p>
 
 <figure class="image">
-    <img src="../../assets/img/blog/distributed-result-3.png" alt="Image showing the sensor measurements and the estimates for different measurement models for corner and edge sensors" />
-    <figcaption>Image showing the sensor measurements and the estimates for different measurement models for corner and edge sensors</figcaption>
-  </figure>
+    <img src="../../assets/img/blog/distributed-result-3.png" alt="Sensor measurements and the estimates for different measurement models for corner and edge sensors" />
+    <figcaption>Sensor measurements and the estimates for different measurement models for corner and edge sensors</figcaption>
+</figure>
 
 <p>You can find the MATLAB code for this project here on <a href="https://github.com/kalaiselvan-t/Kalman-Consensus-Filter">Github</a></p>
 
@@ -526,6 +536,20 @@ I’m passionate about exploring the technologies that are driving the future of
   
 
   
+  
+
+  
+    
+
+
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Related Posts</h2>  <ul class="related-posts">                  <li class="h4">  <a href="/projects/2025-02-15-rl-based-robot-control/" class="flip-title"><span>Reinforcement Learning based Robot Control</span></a>  <time class="faded fine" datetime="2025-02-15T00:00:00+01:00">15 Feb 2025</time></li>                        <li class="h4">  <a href="/projects/2024-07-17-automatic-verification/" class="flip-title"><span>Automatic Formal Specification Generation And Verification</span></a>  <time class="faded fine" datetime="2024-07-17T00:00:00+02:00">17 Jul 2024</time></li>            </ul></aside>
+
+  
+
+  
+  
+
+  
     
 <aside class="comments related" role="complementary">
   <h2 class="hr-bottom">Comments</h2>
@@ -549,14 +573,6 @@ I’m passionate about exploring the technologies that are driving the future of
 </script>
 </aside>
 
-
-  
-
-  
-    
-
-
-  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Related Posts</h2>  <ul class="related-posts">                  <li class="h4">  <a href="/projects/2024-07-17-automatic-verification/" class="flip-title"><span>Automatic Formal Specification Generation And Verification</span></a>  <time class="faded fine" datetime="2024-07-17T00:00:00+02:00">17 Jul 2024</time></li>            </ul></aside>
 
   
 
