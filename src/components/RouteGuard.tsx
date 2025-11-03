@@ -29,13 +29,18 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       const checkRouteEnabled = () => {
         if (!pathname) return false;
 
-        if (pathname in routes) {
-          return routes[pathname as keyof typeof routes];
+        // Remove trailing slash for route matching
+        const normalizedPath = pathname.endsWith('/') && pathname !== '/'
+          ? pathname.slice(0, -1)
+          : pathname;
+
+        if (normalizedPath in routes) {
+          return routes[normalizedPath as keyof typeof routes];
         }
 
         const dynamicRoutes = ["/blog", "/work"] as const;
         for (const route of dynamicRoutes) {
-          if (pathname?.startsWith(route) && routes[route]) {
+          if (normalizedPath?.startsWith(route) && routes[route]) {
             return true;
           }
         }
@@ -49,9 +54,15 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       if (protectedRoutes[pathname as keyof typeof protectedRoutes]) {
         setIsPasswordRequired(true);
 
-        const response = await fetch("/api/check-auth");
-        if (response.ok) {
-          setIsAuthenticated(true);
+        // Only check auth if API routes are available (not in static export)
+        try {
+          const response = await fetch("/api/check-auth");
+          if (response.ok) {
+            setIsAuthenticated(true);
+          }
+        } catch (error) {
+          // API not available in static export, skip auth check
+          console.warn("API routes not available in static export mode");
         }
       }
 
