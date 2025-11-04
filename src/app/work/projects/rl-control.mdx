@@ -1,18 +1,286 @@
 ---
 title: "Control of underactuated robots using Deep RL"
 publishedAt: "2024-04-08"
-summary: "Control underactuated systems like inverted double-pendulum, acrobot and mountain-car from Gym environment using Q-learning and DQN"
+summary: "Control underactuated systems using Q-learning and DQN"
 images:
-  - "/images/projects/RL-DQN/RL-control.jpg"
+  - "/images/projects/RL-DQN/rl-home.png"
   - "/images/projects/RL-DQN/mountain_car_animation.gif"
 team:
   - name: "Kalaiselvan Thangaraj"
-    role: "Software Engineer"
+    role: "Software Engineer" 
     avatar: "/images/avatar.jpg"
     linkedIn: "https://www.linkedin.com/in/kalaiselvan-thangaraj"
 link: "https://github.com/kalaiselvan-t/learning-based-control"
 ---
 
-## Overview
+In this project, Reinforcement learning algorithms like DQN and Q-learning are implemented on different environments using the Gymnasium API.
 
-Under Construction
+## Introduction
+
+Controlling robots has always been a hassle. 
+If we know how our robot should move, then we can use any of the control algorithms available to achieve the desired robot motions. 
+A classical example is a PID controller, which helps us follow a given trajectory, by constantly measuring the current state of the robot and applying corrective measures to match the expected state. 
+But what can we do when we don't have a predefined trajectory or know how our robot should move. 
+This is where optimal control techniques like Dynamic Programming and MPC help us to identify optimal behaviour a robot can have. 
+But, wouldn't it be cool if the robot learns to move on its own by trial and error?
+
+Reinforcement learning is a branch of AI, that allows an agent/robot to learn optimal behaviour through interaction with an environment providing constant feedback about the results of its actions. 
+Much of our work should go into setting up the environment, its reward functions (the feedback), learning policies of the agent and so on and the robot will come up with a policy that gets the job done, by striving to maximize its rewards (or reduce it, if it is negative). 
+There are several RL algorithms out of which we will only explore two of them. 
+Below you can find a taxonomy of RL algorithms:
+
+<Media 
+  src="/images/projects/RL-DQN/RL-taxonomy.png"
+  alt="Taxonomy of RL Algorithms"
+  aspectRatio="16/9"
+  radius="m"
+  marginTop="16"
+  marginBottom="8"
+/>
+
+<Text variant="body-default-xs" onBackground="neutral-weak" align="center" marginBottom="24">
+  Taxonomy of RL Algorithms from [Kaggle](https://www.kaggle.com/code/saquib7hussain/cartpole-game-reinforcement-learning)
+</Text>
+
+In this project, the popular techniques of **Q-learning** and **Deep Q-learning** in RL are applied to solve some difficult control problems, demonstrating how RL comes up with optimal strategies without us having to hardcode it. 
+The problems we are going to solve are
+
+- make a underpowered mountain car learn to climb a hill
+- make a cartpole learn to balance the pole pendulum fixed on it
+- make a double-pendulum stand upright against gravity and hold there for as long as possible
+
+By applying these techniques to different control problems, we hope to see the extent until which these techniques are able to effectively solve the problems.
+
+## Context and Problem Statement
+
+In Reinforcement learning, the problems we are hoping to solve, must be expressed in the form of an environment, with which the agent interacts and learns. 
+An environment has the action-space (the actions that an agent can perform in the environment), the state-space (the states that an agent can be in) and the transition dynamics (the dynamics governing the change from one state to another) well defined. 
+The environments we will use for this project are:
+
+### 1. The Mountain Car Environment
+
+The Mountain car is the simplest of the three problems. We have an underpowered car that is stuck in a valley between two steep hills. 
+Even at full throttle, the car can't climb the hill as gravity always pulls the car down to the valley. If the car has any hope of climbing up the hill, then it must learn to use the potential energy by climbing the opposite hill and use it to climb the hill in front of it.
+
+
+<Media 
+  src="/images/projects/RL-DQN/mountain_car.gif"
+  alt="The mountain car problem"
+  aspectRatio="16/9"
+  radius="m"
+  marginTop="16"
+  marginBottom="16"
+/>
+
+### 2. The Cartpole Environment
+
+A pole is attached to a cart using an unactuated joint and the cart can move along a frictionless track. 
+The pole is placed in an upright position at start and our goal is to balance the pole by moving the cart to the left or right direction, for as long as possible.
+
+<Media 
+  src="/images/projects/RL-DQN/cart_pole.gif"
+  alt="The cartpole problem"
+  aspectRatio="16/9"
+  radius="m"
+  marginTop="16"
+  marginBottom="16"
+/>
+
+### 3. The Acrobot Environment
+
+The Double Pendulum or Acrobot is a system that consists of two links connected linearly to form a chain. 
+One end of the chain is fixed and the other joint between them is actuated. 
+Our goal here is to learn to apply torque to the actuated link in a way that the free end of the chain swings above a certain height.
+
+<Media 
+  src="/images/projects/RL-DQN/acrobot.gif"
+  alt="The acrobot problem"
+  aspectRatio="2/2"
+  radius="m"
+  marginTop="16"
+  marginBottom="16"
+/>
+
+## Background
+
+**Q-learning** is a model-free value-based reinforcement learning algorithm that allows an agent to learn optimal actions in a given environment through trial and error. 
+It is a method for finding the best strategy to maximize long-term reward by learning from interactions with the environment. 
+It is called model free because it doesn't need a model of the environment instead it learns by interacting with the environment. 
+It learns to choose optimal actions by estimating so called Q-values, which are expected rewards of taking a specific action in a given state. 
+Q-values are collected for different states in a table and later used to pick the action with the highest Q-value for any given state. 
+It is categorized as an off-policy learning method because it can evaluate and update a policy that differs from the policy it used to take actions.
+
+**Deep Q-learning** is an improvement to the Q-learning algorithm. 
+The main difference to Q-learning is its use of neural networks to approximate the Q-value function. 
+Q-learning can only be used for discreet states since it uses a table to record the states along with their associated q-values. 
+If we wanted to use Q-learning on a continuous state space, then we need to discretize the state first. 
+DQN overcomes this challenge by employing neural networks to learn the underlying Q-value function and can be also be used with continuous state space. 
+We will look into DQN in detail.
+
+## Q-learning: Mountain car
+
+In Q-learning, we learn Q-values of actions at different states. 
+We will use Q-learning to solve the mountain car and cartpole environments. 
+These two environemnts have the following properties
+
+<Column>
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Value", key: "value" },
+    ],
+    rows: [
+      ["Action Space", "(3,) - discrete"],
+      ["Observation Shape", "(2,)"],
+      ["Observation High", "[0.6 0.07]"],
+      ["Observation Low", "[-1.2 -0.07]"],
+    ],
+  }}
+/>
+<Text variant="label-strong-s" onBackground="neutral-weak" align="center" marginTop="8">
+  MountainCar environment properties
+</Text>
+</Column>
+
+<Column marginTop="24">
+<Table
+  data={{
+    headers: [
+      { content: "Category", key: "category" },
+      { content: "Value", key: "value" },
+    ],
+    rows: [
+      ["Action Space", "(2,) - discrete"],
+      ["Observation Shape", "(4,)"],
+      ["Observation High", "[4.6 inf 0.42 inf]"],
+      ["Observation Low", "[-4.8 -inf -0.42 -inf]"],
+    ],
+  }}
+/>
+<Text variant="label-strong-s" onBackground="neutral-weak" align="center" marginTop="8">
+  Cartpole environment properties
+</Text>
+</Column>
+
+The action space of these environments are discrete, meaning we can either move the car/cart to the right or left at a set velocity or not apply any velocity at all. 
+The observation space is the amount of information that we will receive from our environment like the position and velocity of the car, position and velocity of the pendulum. 
+Below, we will look into the algorithm and the implementation in detail.
+
+### Algorithm
+
+The Q-learning algorithm is as follows
+
+<List as="ol" textVariant="body-default-m" gap="4">
+  <ListItem>Setup the environment, so that we are able to receive observations and perform actions</ListItem>
+  <ListItem>Setup hyperparameters like learning rate, discount factor, epsilon (exploration/exploitation tradeoff) etc.</ListItem>
+  <ListItem>Discretize the observation space of the environment</ListItem>
+  <ListItem>Initialize Q-table and other storage variables</ListItem>
+  <ListItem>Setup the training loop</ListItem>
+  <ListItem>Run inference</ListItem>
+</List>
+
+### The Environment
+
+**[Gymnasium](https://gymnasium.farama.org/index.html)** is based on the OpenAI Gym library which has a lot of reference environments and provides us with APIs to facilitate communication between the algorithms and the environment. 
+In this project we use the [MountainCar-v0](https://gymnasium.farama.org/environments/classic_control/mountain_car/) and the [CartPole-v1](https://gymnasium.farama.org/environments/classic_control/cart_pole/) environments.
+
+To use these environments, we first have to initialize them
+
+<CodeBlock
+	compact
+	copyButton={false}
+	codes={[
+		{
+			code: "import gymnasium as gym\n\nenv = gym.make('CartPole-v1')\nobs, info = env.reset()",
+			language: "python",
+			label: "Compact"
+		}
+	]}
+/>
+
+### Hyperparameters
+
+There are some hyperparameters that we need to set before beginning our training process. 
+These hyperparameters have great influence on the success of our agent. 
+The hyperparameters used in this project are
+
+<Column>
+<Table
+  data={{
+    headers: [
+      { content: "Hyperparameters", key: "hyperparameters" },
+      { content: "Description", key: "description" },
+      { content: "Value", key: "value" },
+    ],
+    rows: [
+      ["Learning rate", "Decides how fast the agent will learn from examples", "0.9"],
+      ["Discount factor", "Decides whether to value short term rewards or long term rewards", "0.9"],
+      ["Epsilon decay", "Decides the rate at which exploration becomes exploitation", "2 / total episodes"],
+    ],
+  }}
+/>
+</Column>
+
+For our agent to learn an optimal policy, we must allow our agent to explore enough before making use of the learned q-values. 
+So, we use a policy called epsilon-greedy policy, where epsilon decides if we are going to choose a random action (to explore) or to choose a value from our q-table (exploit what we have learned). 
+The value we have chosen makes sure that we explore for the half of the total episodes before exploiting what we have learned.
+
+### Discretization
+
+During our training, we will be constantly interacting with our environment, recording the state and the associated q-values in our q-table. 
+The environment provides continuous values for the current position of the mountain car. Since it is not feasible to record all the position values in a q-table, we will discretize the continuous variables from the environement before storing it. 
+We will also initialize a q-table containing q-values for each state and action, which will be updated during our training process.
+
+### Training
+
+Training will be done for a given number of episodes. 
+At the start of each episode, the mountain car is spawned at a random location at the valley between the hills. 
+Based on our learning policy, we will choose a random action within the action space or the action with the highest q-value for the given state. 
+Then based on the rewards received, we will calculate the q-values associated with that state and action based on the following rule
+
+$$ 
+Q(s,a) \leftarrow Q(s,a) + \alpha \big( r + \gamma \max_{a'} Q(s',a') - Q(s,a) \big)
+$$
+
+The episode will run until one of the following two conditions are met.
+
+<List as="ul" textVariant="body-default-m" gap="4">
+  <ListItem>Termination - The goal has been reached</ListItem>
+  <ListItem>Truncation - The episode is ended when the episode length is over 200</ListItem>
+</List>
+
+After each episode, the $\epsilon$ value is reduced by the $\epsilon$-decay factor to facilitate switch from exploration and exploitation.
+
+### Result
+
+After training from 5000 episodes after rejecting negative rewards over 1000, this is how our mountain car performs
+
+<Media 
+  src="/images/projects/RL-DQN/mountain_car_animation.gif"
+  alt="Trained mountain car"
+  aspectRatio="16/9"
+  radius="m"
+  marginTop="16"
+  marginBottom="16"
+/>
+
+## Discussion
+
+We can see that the car has learned well to make use of the potential energy to overcome it's lack of engine power and climb the hill in front of it. 
+Although it is able to finish the task, there is still room for improvement. 
+From the overall rewards gained throughout training, it is evident that the car can't climb the hill faster than 200 timesteps. 
+There is probably no need to climb the opposite hill all the way up for that. Next steps would be to optimize this behaviour of the car.
+
+<Media 
+  src="/images/projects/RL-DQN/mountain_car.png"
+  alt="Trained mountain car"
+  aspectRatio="16/9"
+  radius="m"
+  marginTop="16"
+  marginBottom="16"
+/>
+
+The algorithm for the cartpole environment is similar except there are two more states to keep track of and the truncation and termination rules for the cartpole environment is different.
+
+[Project Code](https://github.com/kalaiselvan-t/learning-based-control/blob/master/Q-learning/ql-2.py)

@@ -1,10 +1,11 @@
 import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
-import { Line, Logo, Row, Text } from "@once-ui-system/core";
+import { Line, Logo, Row, Text} from "@once-ui-system/core";
+import Image from 'next/image';
 
 const person: Person = {
   firstName: "Kalaiselvan",
   lastName: "Thangaraj",
-  name: `Kalaiselvan`,
+  name: `Kalaiselvan Thangaraj`,
   role: "Autonomous Systems Engineer",
   avatar: "/images/avatar.jpg",
   email: "kalaiselvan.thangarajs@gmail.com",
@@ -49,7 +50,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Engineering intelligence into autonomous systems</>,
+  headline: <>Engineering intelligence into Autonomous Systems</>,
   featured: {
     display: true,
     title: (
@@ -61,11 +62,11 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/work/formal-ai-verification",
   },
   subline: (
     <>
-      Hi there! I'm Kalaiselvan, an autonomous systems engineer
+      Hi there! I'm Kalaiselvan, an Autonomous Systems engineer
       <br /> specializing in Robotics, AI, and Formal verification
     </>
   ),
@@ -85,7 +86,7 @@ const about: About = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/kalaiselvan-thangaraj-vasgts",
   },
   intro: {
     display: true,
@@ -103,41 +104,43 @@ const about: About = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "ThoughtWorks",
+        timeframe: "2024 - 2025",
+        role: "Research Intern - AI Safety in Autonomous Vehicles",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Built a semantic AI-driven verification pipeline that improved interpretability and robustness of autonomous-vehicle object detection, enabling precise identification and remediation of model failures.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Modeled the driving environment as an ontology and authored a DSL to generate formal, machine-checkable verification specifications; translated ontology + reasoner output into MILP constraints and verified object detection with the SCIP solver.
+          </>,
+          <>
+            Probed CNN internals using a vision-language model to explain classifications; when verification failed, pinpointed missing features and directed targeted dataset augmentation to improve robustness.
           </>,
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
+          // {
+          //   src: "/images/projects/project-01/cover-01.jpg",
+          //   alt: "Once UI Project",
+          //   width: 16,
+          //   height: 9,
+          // },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Corning",
+        timeframe: "2021 - 2022",
+        role: "Robotics Engineer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Developed software for automating the assembly process of CWDM/DWDM modules, streamlining optical component manufacturing workflows.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Used ROS2 and MoveIt to program Meca500 robot for multi-station operations including filter pickup, cleaning, active alignment, epoxy dispensing and module assembly.
+          </>,
+          <>
+            Developed a Jupyter widgets-based GUI to operate and control the entire assembly process, providing intuitive real-time monitoring and control capabilities.
           </>,
         ],
         images: [],
@@ -149,75 +152,60 @@ const about: About = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "University of Trento",
+        description: <>M.Sc Mechatronics Engineering</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Technical University of Trento",
+        description: <>M.Sc ICT Innovation</>,
+      },
+      {
+        name: "Kumaraguru College of Technology",
+        description: <>B.E Mechatronics Engineering</>,
       },
     ],
   },
   technical: {
     display: true, // set to false to hide this section
-    title: "Technical skills",
+    title: "Technical Skills",
     skills: [
       {
-        title: "Figma",
-        description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
-        ),
+        title: "",
+        description: (<></>),
         tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
+          { name: "Python", icon: "" },
+          { name: "C++", icon: "" },
+          { name: "JavaScript", icon: "" },
+          { name: "Rust", icon: "" },
+          { name: "Git", icon: "" },
+          { name: "Docker", icon: "" },
+          { name: "Linux", icon: "" },
+          { name: "ROS2", icon: "" },
+          { name: "MoveIt", icon: "" },
+          { name: "Gazebo", icon: "" },
+          { name: "SLAM", icon: "" },
+          { name: "MoveIt2", icon: "" },
+          { name: "Nav2", icon: "" },
+          { name: "PyTorch", icon: "" },
+          { name: "TensorFlow", icon: "" },
+          { name: "OpenCV", icon: "" },
+          { name: "YOLO", icon: "" },
+          { name: "Reinforcement Learning", icon: "" },
+          { name: "Deep Learning", icon: "" },
+          { name: "Vision Language Action Models", icon: "" },
+          { name: "MILP", icon: "" },
+          { name: "SCIP Solver", icon: "" },
+          { name: "Ontologies", icon: "" },
+          { name: "DSL Design", icon: "" },
+          { name: "Safety Analysis", icon: "" },
+          { name: "LiDAR", icon: "" },
+          { name: "Cameras", icon: "" },
+          { name: "IMU", icon: "" },
+          { name: "Meca500 Robot", icon: "" },
+          { name: "Arduino/RPi", icon: "" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
-      {
-        title: "Next.js",
-        description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
-        ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
-      },  
     ],
   },
 };
@@ -234,7 +222,8 @@ const blog: Blog = {
 const work: Work = {
   path: "/work",
   label: "Work",
-  title: `Projects – ${person.name}`,
+  title: `Projects`,
+  // title: `Projects – ${person.name}`,
   description: `Design and dev projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes

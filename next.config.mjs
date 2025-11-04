@@ -1,8 +1,13 @@
 import mdx from "@next/mdx";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 const withMDX = mdx({
   extension: /\.mdx?$/,
-  options: {},
+  options: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
+  },
 });
 
 /** @type {import('next').NextConfig} */
