@@ -156,7 +156,7 @@ const about: About = {
         description: <>M.Sc Mechatronics Engineering</>,
       },
       {
-        name: "Technical University of Trento",
+        name: "Technical University of Berlin",
         description: <>M.Sc ICT Innovation</>,
       },
       {
